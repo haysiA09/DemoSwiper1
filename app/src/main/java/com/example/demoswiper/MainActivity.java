@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Fragment> al;
     MyFragmentPagerAdapter adapter;
     ViewPager vPager;
+    Button btnBack, btnNext;
 
 
     @Override
@@ -20,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         vPager = findViewById(R.id.viewpager1);
+
+        vPager = findViewById(R.id.viewpager1);
+
+        btnBack = findViewById(R.id.buttonBack);
+        btnNext = findViewById(R.id.buttonNext);
+
 
         FragmentManager fm = getSupportFragmentManager();
 
@@ -30,6 +39,26 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyFragmentPagerAdapter(fm, al);
 
         vPager.setAdapter(adapter);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vPager.getCurrentItem() > 0){
+                    int previousPage = vPager.getCurrentItem() - 1;
+                    vPager.setCurrentItem(previousPage, true);
+                }
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int max = vPager.getChildCount();
+                if (vPager.getCurrentItem() < max-1){
+                    int nextPage = vPager.getCurrentItem() + 1;
+                    vPager.setCurrentItem(nextPage, true);
+                }
+            }
+        });
 
     }
 }
